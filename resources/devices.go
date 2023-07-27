@@ -14,14 +14,14 @@ func YonomiDevicesTable() *schema.Table {
 		Name:      "yonomi_devices",
 		Resolver:  fetchYonomiDevicesData,
 		Multiplex: client.DeviceMultiplex,
-		Transform: transformers.TransformWithStruct(&yonomi.SchlageLockDataBlock{}),
+		Transform: transformers.TransformWithStruct(&yonomi.DevicesDataBlock{}),
 	}
 }
 
 func fetchYonomiDevicesData(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
 	c := meta.(*client.Client)
 	device := c.Device
-	data, err := yonomi.GetSchlageLockData(c.Spec.Authorization, device.DeviceId)
+	data, err := yonomi.GetDevicesData(c.Spec.Authorization, device.DeviceId)
 	if err != nil {
 		return err
 	}
